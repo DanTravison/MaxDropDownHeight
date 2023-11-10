@@ -95,6 +95,14 @@ repro no longer occurs:
 <Setter Property="FontSize" Value="20"/>
 ```
 
+# Images
+The following shows the dropdown before refresh:
+
+![Before Refresh](before.png)
+
+And after refresh:
+
+![After Refresh](after.png)
 
 
 
