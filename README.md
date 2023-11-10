@@ -75,6 +75,9 @@ and files found at the root of c:\. If you are not running on
 Windows or do not have a 'C' drive, change the const string DefaultPath
 in MainViewModel.cs.
 
+* NOTE: The sample does not have a proper layout class so the initial
+dropdown button size is incorrect.  Click the button twice to fix.
+
 There are two actions available: 
 * Select the 'Refresh Dropdown Contents' button to simply
 refresh the dropdown contents.
