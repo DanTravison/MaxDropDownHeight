@@ -1,0 +1,187 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:MaxDropDownHeight"
+             xmlns:model="clr-namespace:MaxDropDownHeight.Model"
+             xmlns:viewmodels="clr-namespace:MaxDropDownHeight.ViewModels"
+             xmlns:syncfusion="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
+             x:Class="MaxDropDownHeight.Views.MainPage"
+             x:DataType="viewmodels:MainViewModel">
+    <ContentPage.Resources>
+
+        <Style TargetType="VerticalStackLayout" x:Key="FileStyle">
+            <Setter Property="Spacing" Value="0"/>
+            <Setter Property="BackgroundColor" Value="Black"/>
+            <Setter Property="Margin" Value="0"/>
+            <Setter Property="Padding" Value="5,5,5,5"/>
+        </Style>
+
+        <Style TargetType="HorizontalStackLayout" x:Key="DirectoryStyle">
+            <Setter Property="Spacing" Value="5"/>
+            <Setter Property="BackgroundColor" Value="Black"/>
+            <Setter Property="Margin" Value="0"/>
+            <Setter Property="Padding" Value="5,5,5,5"/>
+        </Style>
+
+        <Style TargetType="HorizontalStackLayout" x:Key="NameIconStyle">
+            <Setter Property="Spacing" Value="5"/>
+            <Setter Property="BackgroundColor" Value="Black"/>
+            <Setter Property="Margin" Value="0"/>
+        </Style>
+
+        <Style TargetType="Label" x:Key="LabelStyle">
+            <Setter Property="FontSize" Value="20"/>
+        </Style>
+
+        <Style TargetType="Label" x:Key="IconStyle"
+               x:DataType="model:FileSystemItem"
+               BasedOn="{StaticResource LabelStyle}"
+               >
+            <Setter Property="FontFamily" Value="FluentUI"/>
+            <Setter Property="FontAttributes" Value="Bold"/>
+            <Setter Property="Text" Value="{Binding IconGlyph}"/>
+            <Setter Property="TextColor" Value="Goldenrod"/>
+            <Setter Property="HorizontalTextAlignment" Value="Start"/>
+        </Style>
+
+        <Style TargetType="Label" x:Key="NameStyle"
+               x:DataType="model:FileSystemItem"
+               BasedOn="{StaticResource LabelStyle}"
+               >
+            <Setter Property="Text" Value="{Binding Info.Name}"/>
+            <Setter Property="TextColor" Value="WhiteSmoke"/>
+            <Setter Property="HorizontalTextAlignment" Value="Start"/>
+        </Style>
+
+        <Style TargetType="Label" x:Key="PathStyle" 
+               x:DataType="model:FileSystemItem"
+               BasedOn="{StaticResource LabelStyle}"
+               >
+            <Setter Property="Text" Value="{Binding Info.FullName}"/>
+            <Setter Property="FontAttributes" Value="Italic"/>
+            <Setter Property="TextColor" Value="WhiteSmoke"/>
+            <Setter Property="HorizontalTextAlignment" Value="Start"/>
+        </Style>
+
+        <model:FileSystemTemplateSelector x:Key="ItemsTemplate">
+            <model:FileSystemTemplateSelector.File>
+                <DataTemplate x:DataType="model:FileItem">
+                    <ViewCell>
+                        <VerticalStackLayout Style="{StaticResource FileStyle}"
+                                             ToolTipProperties.Text="{Binding Info.FullName}"
+                                             HorizontalOptions="Fill"
+                                             VerticalOptions="Fill"
+                                             >
+                            <HorizontalStackLayout Style="{StaticResource NameIconStyle}" 
+                                                   HorizontalOptions="Start"
+                                                   VerticalOptions="Fill"
+                                                   >
+                                <Label Style="{StaticResource IconStyle}"/>
+                                <Label Style="{StaticResource NameStyle}"/>
+                            </HorizontalStackLayout>
+                            <Label Style="{StaticResource PathStyle}"/>
+                        </VerticalStackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </model:FileSystemTemplateSelector.File>
+
+            <model:FileSystemTemplateSelector.Directory>
+                <DataTemplate x:DataType="model:DirectoryItem">
+                    <ViewCell>
+                        <HorizontalStackLayout Style="{StaticResource DirectoryStyle}"
+                                               ToolTipProperties.Text="{Binding Info.FullName}"
+                                               HorizontalOptions="Fill"
+                                               VerticalOptions="Fill">
+                            <Label Style="{StaticResource IconStyle}"/>
+                            <Label Style="{StaticResource NameStyle}"/>
+                        </HorizontalStackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </model:FileSystemTemplateSelector.Directory>
+        </model:FileSystemTemplateSelector>
+
+    </ContentPage.Resources>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <VerticalStackLayout Grid.Row="0">
+
+            <Grid Grid.Row="0" 
+                  HorizontalOptions="Center"
+                  VerticalOptions="Fill">
+                
+                <Button  Grid.Row="0"
+                         Text="{Binding Items.SelectedItem, Mode=OneWay}"
+                         TextColor="WhiteSmoke"
+                         Command="{Binding DropdownCommand}"
+                         HorizontalOptions="Fill"
+                         VerticalOptions="Fill"
+                         BackgroundColor="Transparent"
+                        />
+
+                <syncfusion:SfComboBox Grid.Row="0"
+                                       x:Name="ComboBox"
+                                       HorizontalOptions="Fill"
+                                       VerticalOptions="Fill"
+                                       ItemsSource="{Binding Items}"
+                                       ItemTemplate="{StaticResource ItemsTemplate}"
+                                       MinimumWidthRequest="100"
+                                       TextColor="Transparent"
+                                       BackgroundColor="Transparent"
+                                       Stroke="Transparent"
+                                       Margin="0"
+                                       CursorPosition="0"
+                                       IsDropdownButtonVisible="False"
+                                       IsEditable="False"
+                                       DropDownIconColor="Transparent"
+                                       IsDropDownOpen="{Binding IsDropdownOpen}"
+                                       SelectedItem="{Binding Items.SelectedItem, Mode=TwoWay}"
+                                       ZIndex="-1"/>
+            </Grid>
+
+            <Button Grid.Row="1"
+                    HorizontalOptions="Center"
+                    Text="Refresh Dropdown Contents"
+                    Command="{Binding RefreshCommand}"
+                    BackgroundColor="Transparent"
+                    TextColor="WhiteSmoke"
+                    />
+
+        </VerticalStackLayout>
+
+        <Label Grid.Row="1" 
+               Text="PlaceHolder items"/>
+
+        <!-- Placeholders used to measure Directory and File items. -->
+        <VerticalStackLayout Grid.Row="2"
+                             BindingContext="{Binding FilePlaceHolder}"
+                             x:Name="FilePlaceHolder" 
+                             Style="{StaticResource FileStyle}"
+                             >
+            <HorizontalStackLayout Style="{StaticResource NameIconStyle}">
+                <Label Style="{StaticResource IconStyle}"/>
+                <Label Style="{StaticResource NameStyle}"/>
+            </HorizontalStackLayout>
+            <Label Style="{StaticResource PathStyle}"/>
+        </VerticalStackLayout>
+
+        <HorizontalStackLayout Grid.Row="3"
+                               BindingContext="{Binding DirectoryPlaceHolder}"
+                               x:Name="DirectoryPlaceHolder" 
+                               Style="{StaticResource DirectoryStyle}"
+                               >
+            <Label Style="{StaticResource IconStyle}"/>
+            <Label Style="{StaticResource NameStyle}"/>
+        </HorizontalStackLayout>
+    </Grid>
+
+</ContentPage>
