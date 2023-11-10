@@ -66,7 +66,8 @@ however, the size of the actual popup is too small.
 
 # Conclusion:
 It 'appears' the issue likely occurs when using a non-default or
-perhaps 'larger' font size is used.
+perhaps 'larger' font size is used. There may be simpler scenarios
+where this occurs but I focused on my use-case.
 
 # Using the sample application
 The sample application populates the dropdown with a set of directories
